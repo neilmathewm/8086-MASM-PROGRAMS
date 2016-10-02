@@ -1,0 +1,78 @@
+.model small
+.stack
+prints macro m
+lea dx,m
+mov ah,09h
+int 21h
+endm
+readn macro
+mov ah,01h
+int 21h
+sub al,30h
+endm
+printn macro r
+add dl,30h
+mov ah,02h
+int 21h
+endm
+.data 
+msg1 db 0ah,0dh,"enter the no. to find factorial $"
+msg2 db 0ah,0dh,"factorial is $"
+STR1 DB 10 dup("$")
+.code
+START: 
+MOV AX,@data
+MOV Ds,AX
+prints msg1
+readn
+mov bl,al
+prints msg2
+mov al,bl
+mov ah,00h
+mov bh,00h
+dec bl
+l1: mul bx
+dec bl
+cmp bl,00h
+jnz l1
+
+mov di,00h
+mov bx,000ah
+push ax
+mov dh,al
+mov bl,ah
+mov ah,02h
+mov dl,0ah
+int 21h
+
+mov dl,bl
+add dl,30h
+int 21h
+
+mov dl,dh
+add dl,30h
+mov ah,02h
+int 21h
+
+mov dl,0ah
+int 21h
+
+pop ax
+l2: mov dx,0000h
+mov bx,000ah
+div bx
+push dx
+inc ch
+cmp ax,00h
+je l3
+jmp l2
+
+l3: 
+pop dx
+printn dx
+dec ch
+
+jnz l3
+mov ah,4ch
+int 21h
+end 
