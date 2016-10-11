@@ -23,7 +23,7 @@ mov al,[bx+1]
 aad
 mov bl,04h
 div bl
-and ah,0ffh
+cmp ah,00h
 jz l1
 lea dx,ntleap
 mov ah,09h
